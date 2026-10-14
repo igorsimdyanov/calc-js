@@ -1,0 +1,6 @@
+services:
+  calc:
+    build: .
+    image: calc
+    ports:
+      - "8080:8080"

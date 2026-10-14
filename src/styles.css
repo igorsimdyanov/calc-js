@@ -1,0 +1,509 @@
+/* ---------- Тема ---------- */
+
+:root {
+  color-scheme: light dark;
+  --font: 'Segoe UI Variable Display', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter,
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --bg: #e8ebf6;
+  --blob-1: rgba(124, 92, 255, 0.32);
+  --blob-2: rgba(34, 193, 195, 0.28);
+  --blob-3: rgba(255, 92, 154, 0.2);
+
+  --surface: rgba(250, 251, 255, 0.7);
+  --surface-solid: #f6f7fd;
+  --surface-border: rgba(255, 255, 255, 0.75);
+  --divider: rgba(26, 27, 46, 0.08);
+  --shadow: 0 30px 80px -24px rgba(40, 40, 90, 0.35), 0 2px 6px rgba(40, 40, 90, 0.08);
+
+  --text: #1a1b2e;
+  --text-muted: #6b6f85;
+  --hover-soft: rgba(26, 27, 46, 0.06);
+
+  --key-digit: rgba(255, 255, 255, 0.9);
+  --key-digit-hover: #ffffff;
+  --key-fn: rgba(233, 235, 246, 0.8);
+  --key-fn-hover: rgba(222, 225, 241, 0.95);
+  --key-border: rgba(26, 27, 46, 0.06);
+  --op-text: #5a3fe0;
+
+  --accent-1: #6d4aff;
+  --accent-2: #4f7bff;
+  --accent-text: #ffffff;
+  --accent-glow: rgba(94, 92, 255, 0.5);
+
+  --error: #d6336c;
+  --focus: #6d4aff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c0d19;
+    --blob-1: rgba(124, 92, 255, 0.38);
+    --blob-2: rgba(34, 193, 195, 0.22);
+    --blob-3: rgba(255, 92, 154, 0.18);
+
+    --surface: rgba(27, 28, 47, 0.72);
+    --surface-solid: #1c1d33;
+    --surface-border: rgba(255, 255, 255, 0.08);
+    --divider: rgba(255, 255, 255, 0.07);
+    --shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.3);
+
+    --text: #f3f3fb;
+    --text-muted: #9a9cb8;
+    --hover-soft: rgba(255, 255, 255, 0.07);
+
+    --key-digit: rgba(255, 255, 255, 0.095);
+    --key-digit-hover: rgba(255, 255, 255, 0.15);
+    --key-fn: rgba(255, 255, 255, 0.045);
+    --key-fn-hover: rgba(255, 255, 255, 0.1);
+    --key-border: rgba(255, 255, 255, 0.05);
+    --op-text: #b8a8ff;
+
+    --accent-1: #8466ff;
+    --accent-2: #4f86ff;
+    --accent-glow: rgba(123, 108, 255, 0.55);
+
+    --error: #ff7aa2;
+    --focus: #a48bff;
+  }
+}
+
+/* ---------- Основа ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background:
+    radial-gradient(40rem 40rem at 10% 5%, var(--blob-1), transparent 60%),
+    radial-gradient(36rem 36rem at 95% 15%, var(--blob-2), transparent 60%),
+    radial-gradient(44rem 44rem at 50% 115%, var(--blob-3), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.5rem 1rem;
+}
+
+.app__footer {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---------- Корпус ---------- */
+
+.calc {
+  display: flex;
+  width: min(100%, 22.5rem);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  backdrop-filter: blur(28px) saturate(160%);
+  overflow: hidden;
+}
+
+.calc__main {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+}
+
+.calc__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.5rem;
+  padding: 0.25rem 0.5rem 0;
+}
+
+.calc__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 0.625rem;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.icon-button:hover:not(:disabled) {
+  background: var(--hover-soft);
+}
+
+.icon-button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ---------- Экран ---------- */
+
+.display {
+  padding: 1.25rem 0.75rem 0.5rem;
+  text-align: right;
+}
+
+.display__top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.5rem;
+}
+
+.display__memory {
+  flex: none;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-text);
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+}
+
+/* Длинное выражение обрезается слева — видна его последняя часть */
+.display__expression {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  justify-content: flex-end;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.display__value {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 4.25rem;
+  margin-top: 0.25rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transition: font-size 0.15s ease;
+}
+
+.display__value--lg {
+  font-size: 3rem;
+}
+
+.display__value--md {
+  font-size: 2.25rem;
+}
+
+.display__value--sm {
+  font-size: 1.75rem;
+}
+
+.display__value--xs {
+  font-size: 1.4rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.display__value--error {
+  color: var(--error);
+}
+
+/* ---------- Память ---------- */
+
+.memory-bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.25rem;
+  margin: 0.25rem 0 0.4rem;
+}
+
+.memory-bar__button {
+  height: 2.1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.memory-bar__button:hover:not(:disabled) {
+  background: var(--hover-soft);
+}
+
+.memory-bar__button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ---------- Кнопки ---------- */
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.3rem;
+}
+
+.key {
+  display: grid;
+  place-items: center;
+  height: 3.4rem;
+  border: 1px solid var(--key-border);
+  border-radius: 0.75rem;
+  font-size: 1.15rem;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.12s,
+    transform 0.08s,
+    box-shadow 0.15s,
+    filter 0.15s;
+}
+
+.key--digit {
+  background: var(--key-digit);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.key--fn,
+.key--op {
+  background: var(--key-fn);
+}
+
+.key--op {
+  font-size: 1.5rem;
+  color: var(--op-text);
+}
+
+.key--accent {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--accent-text);
+  font-size: 1.5rem;
+  box-shadow: 0 8px 20px -8px var(--accent-glow);
+}
+
+.key--digit:hover:not(:disabled) {
+  background: var(--key-digit-hover);
+}
+
+.key--fn:hover:not(:disabled),
+.key--op:hover:not(:disabled) {
+  background: var(--key-fn-hover);
+}
+
+.key--accent:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow: 0 10px 26px -8px var(--accent-glow);
+}
+
+.key:active:not(:disabled),
+.key--pressed {
+  transform: scale(0.96);
+  filter: brightness(0.92);
+}
+
+.key:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.key:focus-visible,
+.memory-bar__button:focus-visible,
+.icon-button:focus-visible,
+.history__item:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Журнал ---------- */
+
+.history {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0.75rem;
+}
+
+.history__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.5rem;
+  padding: 0.25rem 0.5rem 0;
+}
+
+.history__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.history__empty {
+  margin: 1rem 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.history__list {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.history__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  text-align: right;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.history__item:hover {
+  background: var(--hover-soft);
+}
+
+.history__expression {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.history__result {
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.history__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* Узкий экран: журнал выезжает снизу поверх кнопок */
+.history-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(10, 10, 25, 0.35);
+  animation: fade-in 0.2s ease-out;
+}
+
+.history--overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 68%;
+  border-top: 1px solid var(--surface-border);
+  border-radius: 1.25rem 1.25rem 0 0;
+  background: var(--surface-solid);
+  animation: slide-up 0.22s ease-out;
+}
+
+/* Широкий экран: журнал — отдельная колонка справа */
+@media (min-width: 760px) {
+  .calc {
+    width: 46rem;
+  }
+
+  .calc__main {
+    flex: 0 0 24rem;
+  }
+
+  .calc > .history {
+    flex: 1 1 auto;
+    /* Колонка не растягивает корпус — длинный журнал прокручивается */
+    contain: size;
+    border-left: 1px solid var(--divider);
+  }
+}
+
+@media (max-width: 380px), (max-height: 640px) {
+  .key {
+    height: 3rem;
+  }
+
+  .display {
+    padding-top: 0.75rem;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

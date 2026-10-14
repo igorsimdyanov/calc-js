@@ -1,0 +1,28 @@
+{
+  "name": "calc",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Калькулятор (вид «Стандартный») — учебный проект для курса тестирования",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "deploy": "npm run build && aws s3 sync dist/ s3://$S3_BUCKET --delete"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "jsdom": "^30.0.1",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
+  }
+}
