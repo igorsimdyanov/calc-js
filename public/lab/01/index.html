@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Лабораторная работа 1: тест-кейсы и баг-репорты для калькулятора «Стандартный»" />
+    <meta name="theme-color" content="#1b1b2f" />
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+    <title>Лабораторная работа 1 · Тест-кейсы и баг-репорты</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --font: 'Segoe UI Variable Display', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter,
+          Roboto, 'Helvetica Neue', Arial, sans-serif;
+        --mono: ui-monospace, 'SF Mono', Consolas, Menlo, monospace;
+        --bg: #e8ebf6;
+        --blob-1: rgba(124, 92, 255, 0.32);
+        --blob-2: rgba(34, 193, 195, 0.28);
+        --blob-3: rgba(255, 92, 154, 0.2);
+        --surface: rgba(250, 251, 255, 0.72);
+        --surface-border: rgba(255, 255, 255, 0.75);
+        --row: rgba(255, 255, 255, 0.7);
+        --row-border: rgba(26, 27, 46, 0.07);
+        --shadow: 0 30px 80px -24px rgba(40, 40, 90, 0.35), 0 2px 6px rgba(40, 40, 90, 0.08);
+        --text: #1a1b2e;
+        --text-muted: #6b6f85;
+        --link: #5a3fe0;
+        --accent-1: #6d4aff;
+        --accent-2: #4f7bff;
+        --docx: #2b5cd6;
+        --xlsx: #1d7a46;
+        --focus: #6d4aff;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0c0d19;
+          --blob-1: rgba(124, 92, 255, 0.38);
+          --blob-2: rgba(34, 193, 195, 0.22);
+          --blob-3: rgba(255, 92, 154, 0.18);
+          --surface: rgba(27, 28, 47, 0.72);
+          --surface-border: rgba(255, 255, 255, 0.08);
+          --row: rgba(255, 255, 255, 0.05);
+          --row-border: rgba(255, 255, 255, 0.07);
+          --shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.3);
+          --text: #f3f3fb;
+          --text-muted: #9a9cb8;
+          --link: #b8a8ff;
+          --accent-1: #8466ff;
+          --accent-2: #4f86ff;
+          --docx: #6f9bff;
+          --xlsx: #4cc282;
+          --focus: #a48bff;
+        }
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        font-family: var(--font);
+        color: var(--text);
+        line-height: 1.5;
+        background:
+          radial-gradient(40rem 40rem at 10% 5%, var(--blob-1), transparent 60%),
+          radial-gradient(36rem 36rem at 95% 15%, var(--blob-2), transparent 60%),
+          radial-gradient(44rem 44rem at 50% 115%, var(--blob-3), transparent 60%),
+          var(--bg);
+        background-attachment: fixed;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .page {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        padding: 2rem 1rem;
+      }
+
+      .card {
+        width: min(100%, 44rem);
+        padding: 2rem 2rem 1.75rem;
+        background: var(--surface);
+        border: 1px solid var(--surface-border);
+        border-radius: 1.5rem;
+        box-shadow: var(--shadow);
+        -webkit-backdrop-filter: blur(28px) saturate(160%);
+        backdrop-filter: blur(28px) saturate(160%);
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--link);
+      }
+
+      h1 {
+        margin: 0.25rem 0 0.75rem;
+        font-size: clamp(1.6rem, 4vw, 2.1rem);
+        line-height: 1.2;
+      }
+
+      h2 {
+        margin: 1.75rem 0 0.75rem;
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin: 0 0 0.5rem;
+      }
+
+      .muted {
+        color: var(--text-muted);
+      }
+
+      a {
+        color: var(--link);
+        text-underline-offset: 0.15em;
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 3px;
+        border-radius: 0.4rem;
+      }
+
+      .files {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .file {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 0.9rem;
+        padding: 0.9rem 1rem;
+        background: var(--row);
+        border: 1px solid var(--row-border);
+        border-radius: 1rem;
+      }
+
+      .badge {
+        width: 3rem;
+        height: 3rem;
+        display: grid;
+        place-items: center;
+        border-radius: 0.75rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: #fff;
+      }
+
+      .badge--docx {
+        background: var(--docx);
+      }
+
+      .badge--xlsx {
+        background: var(--xlsx);
+      }
+
+      .file__title {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .file__text {
+        margin: 0.1rem 0 0.25rem;
+        font-size: 0.92rem;
+        color: var(--text-muted);
+      }
+
+      .file__name {
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        overflow-wrap: anywhere;
+      }
+
+      .download {
+        display: inline-block;
+        padding: 0.55rem 1rem;
+        border-radius: 0.75rem;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.92rem;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .download:hover {
+        filter: brightness(1.08);
+      }
+
+      ol {
+        margin: 0;
+        padding-left: 1.4rem;
+      }
+
+      li + li {
+        margin-top: 0.35rem;
+      }
+
+      code {
+        font-family: var(--mono);
+        font-size: 0.9em;
+        white-space: nowrap;
+      }
+
+      .footer {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        text-align: center;
+      }
+
+      @media (max-width: 34rem) {
+        .card {
+          padding: 1.5rem 1.1rem 1.25rem;
+        }
+
+        .file {
+          grid-template-columns: auto 1fr;
+        }
+
+        .download {
+          grid-column: 1 / -1;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <article class="card">
+        <p class="eyebrow">Лабораторная работа 1</p>
+        <h1>Тест-кейсы и баг-репорты</h1>
+        <p>
+          Объект тестирования — калькулятор «Стандартный», версия 1.0.0:
+          <a href="../../">calc.simdyanov.ru</a>.
+        </p>
+        <p class="muted">
+          Требования к калькулятору — в
+          <a href="https://github.com/igorsimdyanov/calc-js#требования-к-калькулятору">README на GitHub</a>.
+        </p>
+
+        <h2>Файлы</h2>
+        <ul class="files">
+          <li class="file">
+            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
+            <div>
+              <p class="file__title">Задание и критерии оценки</p>
+              <p class="file__text">Что сделать и как оценивается работа</p>
+              <p class="file__name">01. lab-calc-arithmetic.docx · 17 КБ</p>
+            </div>
+            <a class="download" href="01.%20lab-calc-arithmetic.docx" download="01. lab-calc-arithmetic.docx">Скачать</a>
+          </li>
+          <li class="file">
+            <span class="badge badge--xlsx" aria-hidden="true">XLSX</span>
+            <div>
+              <p class="file__title">Книга для прогонов</p>
+              <p class="file__text">69 тест-кейсов без «Арифметических операций»: сюда добавляете свои кейсы и результаты прогона</p>
+              <p class="file__name">test-cases-no-arithmetic.xlsx · 29 КБ</p>
+            </div>
+            <a class="download" href="test-cases-no-arithmetic.xlsx" download="test-cases-no-arithmetic.xlsx">Скачать</a>
+          </li>
+          <li class="file">
+            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
+            <div>
+              <p class="file__title">Образец баг-репорта</p>
+              <p class="file__text">BUG-ARI-01 — оформляйте свои баг-репорты так же</p>
+              <p class="file__name">bug-report-calc-15-nines.docx · 23 КБ</p>
+            </div>
+            <a class="download" href="bug-report-calc-15-nines.docx" download="bug-report-calc-15-nines.docx">Скачать</a>
+          </li>
+        </ul>
+
+        <h2>Что сделать</h2>
+        <ol>
+          <li>Разработайте тест-кейсы для тест-сьюта «Арифметические операции»: <code>TC-ARI-01</code>, <code>TC-ARI-02</code> и далее.</li>
+          <li>Проверьте деление на ноль — кейс <code>TC-ERR-02</code> в книге для прогонов.</li>
+          <li>Выполните кейсы на <a href="../../">стенде</a> и запишите результаты прогона в книгу.</li>
+          <li>Оформите каждый найденный дефект баг-репортом со скриншотом.</li>
+        </ol>
+        <p class="muted" style="margin-top: 0.75rem">Подробности и критерии оценки — в файле задания.</p>
+      </article>
+      <footer class="footer">Учебный проект · калькулятор «Стандартный»</footer>
+    </main>
+  </body>
+</html>
