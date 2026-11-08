@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Лабораторная работа: автотесты на Jest для калькулятора «Стандартный»" />
+    <meta name="theme-color" content="#1b1b2f" />
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+    <title>Лабораторная работа 3 · Автотесты на Jest</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --font: 'Segoe UI Variable Display', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter,
+          Roboto, 'Helvetica Neue', Arial, sans-serif;
+        --mono: ui-monospace, 'SF Mono', Consolas, Menlo, monospace;
+        --bg: #e8ebf6;
+        --blob-1: rgba(124, 92, 255, 0.32);
+        --blob-2: rgba(34, 193, 195, 0.28);
+        --blob-3: rgba(255, 92, 154, 0.2);
+        --surface: rgba(250, 251, 255, 0.72);
+        --surface-border: rgba(255, 255, 255, 0.75);
+        --row: rgba(255, 255, 255, 0.7);
+        --row-border: rgba(26, 27, 46, 0.07);
+        --shadow: 0 30px 80px -24px rgba(40, 40, 90, 0.35), 0 2px 6px rgba(40, 40, 90, 0.08);
+        --text: #1a1b2e;
+        --text-muted: #6b6f85;
+        --link: #5a3fe0;
+        --accent-1: #6d4aff;
+        --accent-2: #4f7bff;
+        --docx: #2b5cd6;
+        --xlsx: #1d7a46;
+        --zip: #b5651d;
+        --code-bg: rgba(26, 27, 46, 0.06);
+        --focus: #6d4aff;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0c0d19;
+          --blob-1: rgba(124, 92, 255, 0.38);
+          --blob-2: rgba(34, 193, 195, 0.22);
+          --blob-3: rgba(255, 92, 154, 0.18);
+          --surface: rgba(27, 28, 47, 0.72);
+          --surface-border: rgba(255, 255, 255, 0.08);
+          --row: rgba(255, 255, 255, 0.05);
+          --row-border: rgba(255, 255, 255, 0.07);
+          --shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.3);
+          --text: #f3f3fb;
+          --text-muted: #9a9cb8;
+          --link: #b8a8ff;
+          --accent-1: #8466ff;
+          --accent-2: #4f86ff;
+          --docx: #6f9bff;
+          --xlsx: #4cc282;
+          --zip: #e09a4f;
+          --code-bg: rgba(255, 255, 255, 0.08);
+          --focus: #a48bff;
+        }
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        font-family: var(--font);
+        color: var(--text);
+        line-height: 1.5;
+        background:
+          radial-gradient(40rem 40rem at 10% 5%, var(--blob-1), transparent 60%),
+          radial-gradient(36rem 36rem at 95% 15%, var(--blob-2), transparent 60%),
+          radial-gradient(44rem 44rem at 50% 115%, var(--blob-3), transparent 60%),
+          var(--bg);
+        background-attachment: fixed;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .page {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        padding: 2rem 1rem;
+      }
+
+      .card {
+        width: min(100%, 44rem);
+        padding: 2rem 2rem 1.75rem;
+        background: var(--surface);
+        border: 1px solid var(--surface-border);
+        border-radius: 1.5rem;
+        box-shadow: var(--shadow);
+        -webkit-backdrop-filter: blur(28px) saturate(160%);
+        backdrop-filter: blur(28px) saturate(160%);
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--link);
+      }
+
+      h1 {
+        margin: 0.25rem 0 0.75rem;
+        font-size: clamp(1.6rem, 4vw, 2.1rem);
+        line-height: 1.2;
+      }
+
+      h2 {
+        margin: 1.75rem 0 0.75rem;
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin: 0 0 0.5rem;
+      }
+
+      .muted {
+        color: var(--text-muted);
+      }
+
+      a {
+        color: var(--link);
+        text-underline-offset: 0.15em;
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 3px;
+        border-radius: 0.4rem;
+      }
+
+      .files {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .file {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 0.9rem;
+        padding: 0.9rem 1rem;
+        background: var(--row);
+        border: 1px solid var(--row-border);
+        border-radius: 1rem;
+      }
+
+      .badge {
+        width: 3rem;
+        height: 3rem;
+        display: grid;
+        place-items: center;
+        border-radius: 0.75rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: #fff;
+      }
+
+      .badge--docx {
+        background: var(--docx);
+      }
+
+      .badge--xlsx {
+        background: var(--xlsx);
+      }
+
+      .badge--zip {
+        background: var(--zip);
+      }
+
+      pre {
+        margin: 0.5rem 0 0.75rem;
+        padding: 0.75rem 1rem;
+        background: var(--code-bg);
+        border-radius: 0.75rem;
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        line-height: 1.55;
+        overflow-x: auto;
+      }
+
+      pre code {
+        font-size: 1em;
+        white-space: pre;
+      }
+
+      .grades {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+
+      .grades th,
+      .grades td {
+        padding: 0.55rem 0.75rem;
+        border-bottom: 1px solid var(--row-border);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .grades th {
+        width: 3.5rem;
+        font-size: 1.05rem;
+        color: var(--link);
+      }
+
+      .note {
+        margin-top: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: var(--row);
+        border: 1px solid var(--row-border);
+        border-radius: 1rem;
+        font-size: 0.92rem;
+      }
+
+      .file__title {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .file__text {
+        margin: 0.1rem 0 0.25rem;
+        font-size: 0.92rem;
+        color: var(--text-muted);
+      }
+
+      .file__name {
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        overflow-wrap: anywhere;
+      }
+
+      .download {
+        display: inline-block;
+        padding: 0.55rem 1rem;
+        border-radius: 0.75rem;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.92rem;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .download:hover {
+        filter: brightness(1.08);
+      }
+
+      ol {
+        margin: 0;
+        padding-left: 1.4rem;
+      }
+
+      li + li {
+        margin-top: 0.35rem;
+      }
+
+      code {
+        font-family: var(--mono);
+        font-size: 0.9em;
+        white-space: nowrap;
+      }
+
+      .footer {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        text-align: center;
+      }
+
+      @media (max-width: 34rem) {
+        .card {
+          padding: 1.5rem 1.1rem 1.25rem;
+        }
+
+        .file {
+          grid-template-columns: auto 1fr;
+        }
+
+        .download {
+          grid-column: 1 / -1;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <article class="card">
+        <p class="eyebrow">Лабораторная работа 3</p>
+        <h1>Автотесты на Jest</h1>
+        <p>
+          Автоматизируйте свои тест-кейсы из лабораторной «Тест-кейсы и баг-репорты»: проверки, которые вы делали руками на
+          <a href="../../">стенде</a>, превратятся в тесты Jest, которые запускаются одной командой.
+        </p>
+        <p class="muted">
+          Объект тестирования — калькулятор «Стандартный», требования — в
+          <a href="https://github.com/igorsimdyanov/calc-js#требования-к-калькулятору">README на GitHub</a>.
+        </p>
+
+        <h2>Файлы</h2>
+        <ul class="files">
+          <li class="file">
+            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
+            <div>
+              <p class="file__title">Методичка</p>
+              <p class="file__text">Задание, критерии оценки и пошаговое выполнение с образцами вывода команд</p>
+              <p class="file__name">09. calc-jest.docx · 28 КБ</p>
+            </div>
+            <a class="download" href="09.%20calc-jest.docx" download="09. calc-jest.docx">Скачать</a>
+          </li>
+          <li class="file">
+            <span class="badge badge--zip" aria-hidden="true">ZIP</span>
+            <div>
+              <p class="file__title">Проект калькулятора с Jest</p>
+              <p class="file__text">Исходный код с подключённым Jest, помощниками для тестов и двумя примерами</p>
+              <p class="file__name">calc-js-jest.zip · 231 КБ</p>
+            </div>
+            <a class="download" href="calc-js-jest.zip" download="calc-js-jest.zip">Скачать</a>
+          </li>
+        </ul>
+
+        <h2>С чего начать</h2>
+        <p>Распакуйте архив, откройте папку <code>calc-js-jest</code> в VS Code и выполните в терминале:</p>
+        <pre><code>npm install
+npm run test:jest
+npm run test:coverage</code></pre>
+        <p class="muted">Нужны Node.js 22.12 или новее (лучше 24 или 26 LTS) и VS Code — как в лабораторной работе № 2.</p>
+
+        <h2>Что сделать</h2>
+        <ol>
+          <li>Запустите тесты проекта и разберитесь в отчёте Jest: <code>npm run test:jest</code>.</li>
+          <li>Измерьте тестовое покрытие: <code>npm run test:coverage</code> и HTML-отчёт в папке <code>coverage</code>.</li>
+          <li>
+            Напишите в файле <code>tests/arithmetic.test.js</code> тесты по своим тест-кейсам сьюта «Арифметические операции»:
+            <code>TC-ARI-01</code>, <code>TC-ARI-02</code> и далее.
+          </li>
+        </ol>
+
+        <h2>Критерии оценки</h2>
+        <table class="grades">
+          <tbody>
+            <tr>
+              <th scope="row">«3»</th>
+              <td>Тесты проекта запускаются, покрытие измерено и вы можете объяснить таблицу; написан один тест по тест-кейсу TC-ARI</td>
+            </tr>
+            <tr>
+              <th scope="row">«4»</th>
+              <td>Всё для «3» и три теста — по трём разным тест-кейсам</td>
+            </tr>
+            <tr>
+              <th scope="row">«5»</th>
+              <td>Всё для «4», тестов больше трёх, и они сгруппированы блоками <code>describe</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          Тест упал? Сначала сверьте ожидание с тест-кейсом и требованиями — не подгоняйте его под то, что показал калькулятор.
+          Подробности — в методичке, шаг 13.
+        </p>
+      </article>
+      <footer class="footer">Учебный проект · калькулятор «Стандартный»</footer>
+    </main>
+  </body>
+</html>
