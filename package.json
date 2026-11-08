@@ -13,16 +13,16 @@
     "deploy": "npm run build && aws s3 sync dist/ s3://$S3_BUCKET --delete"
   },
   "dependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@testing-library/user-event": "^14.6.7",
-    "@vitejs/plugin-react": "^6.1.1",
-    "jsdom": "^30.0.1",
-    "vite": "^8.3.0",
-    "vitest": "^5.0.1"
+    "@testing-library/user-event": "^14.6.8",
+    "@vitejs/plugin-react": "^6.2.1",
+    "jsdom": "^31.0.0",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
   }
 }
