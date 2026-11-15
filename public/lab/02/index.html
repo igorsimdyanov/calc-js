@@ -302,6 +302,29 @@
           text-align: center;
         }
       }
+
+      .card__title {
+        margin: 0.25rem 0 0.75rem;
+        font-size: clamp(1.3rem, 3vw, 1.55rem);
+        line-height: 1.25;
+      }
+
+      .card[id] {
+        scroll-margin-top: 1.25rem;
+      }
+
+      .list {
+        margin: 0.5rem 0 0;
+        padding-left: 1.4rem;
+      }
+
+      .files + .muted {
+        margin-top: 0.9rem;
+      }
+
+      .grades + .muted {
+        margin-top: 0.6rem;
+      }
     </style>
   </head>
   <body>
@@ -324,59 +347,117 @@
             <span class="badge badge--docx" aria-hidden="true">DOCX</span>
             <div>
               <p class="file__title">Методичка</p>
-              <p class="file__text">Задание, критерии оценки и 26 шагов с образцами вывода команд</p>
-              <p class="file__name">02. lab-calc-setup.docx · 44 КБ</p>
+              <p class="file__text">Три части на двух страницах: команды, что должно получиться и какие скриншоты прислать</p>
+              <p class="file__name">02. lab-calc-setup.docx · 20&nbsp;КБ</p>
             </div>
             <a class="download" href="02.%20lab-calc-setup.docx" download="02. lab-calc-setup.docx">Скачать</a>
-          </li>
-          <li class="file">
-            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
-            <div>
-              <p class="file__title">Чек-лист программ</p>
-              <p class="file__text">Проверьте компьютер до начала работы: Git, Node.js, VS Code, сеть и Docker — 5–10 минут</p>
-              <p class="file__name">02. lab-calc-setup-checklist.docx · 20 КБ</p>
-            </div>
-            <a class="download" href="02.%20lab-calc-setup-checklist.docx" download="02. lab-calc-setup-checklist.docx">Скачать</a>
           </li>
         </ul>
 
         <h2>С чего начать</h2>
-        <p>Пройдите чек-лист, откройте рабочую папку в VS Code и выполните в терминале:</p>
+        <p>Откройте в VS Code пустую папку, например <code>C:\work</code>, и выполните в терминале:</p>
         <pre><code>git clone https://github.com/igorsimdyanov/calc-js.git
 cd calc-js
 npm install
 npm run dev</code></pre>
-        <p class="muted">Калькулятор откроется на http://localhost:5173. Нужны Git, Node.js 22.12 или новее (лучше 24 или 26 LTS) и VS Code с расширением ESLint; для части 3 — Docker Desktop.</p>
+        <p class="muted">
+          Калькулятор откроется на http://localhost:5173. Нужны Git, Node.js 22.12 или новее и VS Code, для части 3 — Docker
+          Desktop. В компьютерном классе всё установлено, на своём компьютере поставьте программы по
+          <a href="#install">инструкциям ниже</a>.
+        </p>
 
         <h2>Что сделать</h2>
-        <ol>
-          <li>Склонируйте проект и запустите его как есть: <code>npm install</code>, <code>npm run dev</code>, <code>npm test</code>, <code>npm run build</code>.</li>
-          <li>Подключите линтер ESLint: пакеты, <code>eslint.config.js</code>, команды <code>lint</code> и <code>lint:fix</code>; исправьте ошибки в <code>src/demo.js</code>.</li>
-          <li>По желанию — соберите образ Docker и запустите калькулятор в контейнере на <code>localhost:8080</code>.</li>
-        </ol>
-
-        <h2>Критерии оценки</h2>
         <table class="grades">
           <tbody>
             <tr>
               <th scope="row">«3»</th>
-              <td>Проект склонирован, зависимости установлены, калькулятор работает на <code>localhost:5173</code>, тесты проходят, сборка собирается</td>
+              <td>
+                <strong>Часть 1.</strong> Склонируйте проект, установите зависимости, запустите тесты и сборку, откройте
+                калькулятор на <code>localhost:5173</code> и посчитайте 12 + 30 = 42.
+              </td>
             </tr>
             <tr>
               <th scope="row">«4»</th>
-              <td>Всё для «3», подключён ESLint, все шесть замечаний в <code>src/demo.js</code> исправлены, и вы можете объяснить сработавшие правила</td>
+              <td>
+                <strong>Часть 2.</strong> Подключите ESLint: пакеты, команды <code>lint</code> и <code>lint:fix</code>,
+                <code>eslint.config.js</code>. Исправьте шесть ошибок в <code>src/demo.js</code> — <code>node src/demo.js</code>
+                выведет 113.
+              </td>
             </tr>
             <tr>
               <th scope="row">«5»</th>
-              <td>Всё для «4», проект запущен в Docker на <code>localhost:8080</code>, и вы можете объяснить Dockerfile и <code>-p 8080:8080</code></td>
+              <td>
+                <strong>Часть 3.</strong> Соберите образ Docker и запустите калькулятор в контейнере на
+                <code>localhost:8080</code>.
+              </td>
             </tr>
           </tbody>
         </table>
+        <p class="muted">Части выполняются по порядку: часть 1 — «3», части 1–2 — «4», все три — «5».</p>
+
+        <h2>Как сдать работу</h2>
+        <p>
+          После каждой части сделайте скриншоты (<code>Win+Shift+S</code>) и вставьте их в один документ Word
+          (<code>Ctrl+V</code>). Пришлите преподавателю файл <code>ЛР2_Фамилия_Имя.docx</code>, например
+          <code>ЛР2_Иванов_Иван.docx</code>. Что должно быть на скриншотах:
+        </p>
+        <ul class="list">
+          <li><strong>Часть 1</strong> — браузер с адресом <code>localhost:5173</code> и ответом 42; в терминале строка <code>Tests 9 passed (9)</code>.</li>
+          <li>
+            <strong>Часть 2</strong> — <code>package.json</code> с командами <code>lint</code> и <code>lint:fix</code>; VS Code с
+            исправленным <code>src/demo.js</code>, а в терминале — <code>npm run lint</code> без ошибок и 113 от
+            <code>node src/demo.js</code>.
+          </li>
+          <li><strong>Часть 3</strong> — браузер с адресом <code>localhost:8080</code> и терминал с контейнером в выводе <code>docker ps</code>.</li>
+        </ul>
         <p class="note">
-          Команды запоминать не нужно — все они есть в методичке. Результат не совпал с образцом — найдите своё сообщение в
-          разделе «Если что-то пошло не так» в конце методички.
+          Команды запоминать не нужно — копируйте их из методички. Если что-то не получается, напишите преподавателю и
+          приложите скриншот терминала с ошибкой.
         </p>
       </article>
+
+      <section class="card" id="install" aria-labelledby="install-title">
+        <p class="eyebrow">Вне компьютерного класса</p>
+        <h2 id="install-title" class="card__title">Установка программ</h2>
+        <p>
+          В компьютерном классе всё нужное уже установлено. Эти инструкции — для тех, кто делает работу дома или на своём
+          ноутбуке. Каждая занимает один лист и начинается с проверки: возможно, программа у вас уже есть и ставить ничего не
+          придётся.
+        </p>
+        <ul class="files">
+          <li class="file">
+            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
+            <div>
+              <p class="file__title">Git</p>
+              <p class="file__text">Чтобы скачать проект командой <code>git clone</code> · 5–10 минут</p>
+              <p class="file__name">02. lab-calc-git-install.docx · 20&nbsp;КБ</p>
+            </div>
+            <a class="download" href="02.%20lab-calc-git-install.docx" download="02. lab-calc-git-install.docx">Скачать</a>
+          </li>
+          <li class="file">
+            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
+            <div>
+              <p class="file__title">Node.js и npm</p>
+              <p class="file__text">Чтобы установить зависимости и запустить калькулятор · 5 минут</p>
+              <p class="file__name">02. lab-calc-node-install.docx · 12&nbsp;КБ</p>
+            </div>
+            <a class="download" href="02.%20lab-calc-node-install.docx" download="02. lab-calc-node-install.docx">Скачать</a>
+          </li>
+          <li class="file">
+            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
+            <div>
+              <p class="file__title">Docker Desktop</p>
+              <p class="file__text">Только для части 3 на «5» · 15–20 минут с перезагрузкой</p>
+              <p class="file__name">02. lab-calc-docker-install.docx · 12&nbsp;КБ</p>
+            </div>
+            <a class="download" href="02.%20lab-calc-docker-install.docx" download="02. lab-calc-docker-install.docx">Скачать</a>
+          </li>
+        </ul>
+        <p class="muted">
+          Ещё понадобится редактор VS Code — скачайте его с <a href="https://code.visualstudio.com/">code.visualstudio.com</a> и
+          установите с вариантами по умолчанию. Для установки программ нужны права администратора.
+        </p>
+      </section>
       <footer class="footer">Учебный проект · калькулятор «Стандартный»</footer>
     </main>
   </body>
