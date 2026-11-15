@@ -302,6 +302,29 @@
           text-align: center;
         }
       }
+
+      .card__title {
+        margin: 0.25rem 0 0.75rem;
+        font-size: clamp(1.3rem, 3vw, 1.55rem);
+        line-height: 1.25;
+      }
+
+      .card[id] {
+        scroll-margin-top: 1.25rem;
+      }
+
+      .list {
+        margin: 0.5rem 0 0;
+        padding-left: 1.4rem;
+      }
+
+      .files + .muted {
+        margin-top: 0.9rem;
+      }
+
+      .grades + .muted {
+        margin-top: 0.6rem;
+      }
     </style>
   </head>
   <body>
@@ -324,61 +347,121 @@
             <span class="badge badge--docx" aria-hidden="true">DOCX</span>
             <div>
               <p class="file__title">Методичка</p>
-              <p class="file__text">Задание, критерии оценки и пошаговое выполнение с образцами вывода команд</p>
-              <p class="file__name">09. calc-jest.docx · 28 КБ</p>
+              <p class="file__text">Три части на двух страницах: подключение Jest, примеры тестов и какие скриншоты прислать</p>
+              <p class="file__name">09. calc-jest.docx · 13&nbsp;КБ</p>
             </div>
             <a class="download" href="09.%20calc-jest.docx" download="09. calc-jest.docx">Скачать</a>
-          </li>
-          <li class="file">
-            <span class="badge badge--zip" aria-hidden="true">ZIP</span>
-            <div>
-              <p class="file__title">Проект калькулятора с Jest</p>
-              <p class="file__text">Исходный код с подключённым Jest, помощниками для тестов и двумя примерами</p>
-              <p class="file__name">calc-js-jest.zip · 231 КБ</p>
-            </div>
-            <a class="download" href="calc-js-jest.zip" download="calc-js-jest.zip">Скачать</a>
           </li>
         </ul>
 
         <h2>С чего начать</h2>
-        <p>Распакуйте архив, откройте папку <code>calc-js-jest</code> в VS Code и выполните в терминале:</p>
-        <pre><code>npm install
-npm run test:jest
-npm run test:coverage</code></pre>
-        <p class="muted">Нужны Node.js 22.12 или новее (лучше 24 или 26 LTS) и VS Code — как в лабораторной работе № 2.</p>
+        <p>
+          Откройте в VS Code папку <code>calc-js</code> из лабораторной работы 2 и подключите к ней Jest по методичке. Если
+          проекта нет, склонируйте его заново:
+        </p>
+        <pre><code>git clone https://github.com/igorsimdyanov/calc-js.git
+cd calc-js
+npm install</code></pre>
+        <p class="muted">
+          Нужны Node.js 22.12 или новее и VS Code. В компьютерном классе всё установлено, на своём компьютере поставьте
+          программы по <a href="#install">инструкциям ниже</a>. И ваши тест-кейсы сьюта «Арифметические операции» из
+          лабораторной работы 1.
+        </p>
 
         <h2>Что сделать</h2>
-        <ol>
-          <li>Запустите тесты проекта и разберитесь в отчёте Jest: <code>npm run test:jest</code>.</li>
-          <li>Измерьте тестовое покрытие: <code>npm run test:coverage</code> и HTML-отчёт в папке <code>coverage</code>.</li>
-          <li>
-            Напишите в файле <code>tests/arithmetic.test.js</code> тесты по своим тест-кейсам сьюта «Арифметические операции»:
-            <code>TC-ARI-01</code>, <code>TC-ARI-02</code> и далее.
-          </li>
-        </ol>
-
-        <h2>Критерии оценки</h2>
         <table class="grades">
           <tbody>
             <tr>
               <th scope="row">«3»</th>
-              <td>Тесты проекта запускаются, покрытие измерено и вы можете объяснить таблицу; написан один тест по тест-кейсу TC-ARI</td>
+              <td>
+                <strong>Часть 1.</strong> Подключите Jest к проекту, напишите в <code>tests/arithmetic.test.js</code> первый
+                тест по своему тест-кейсу TC-ARI и измерьте покрытие: <code>npm run test:coverage</code>.
+              </td>
             </tr>
             <tr>
               <th scope="row">«4»</th>
-              <td>Всё для «3» и три теста — по трём разным тест-кейсам</td>
+              <td>
+                <strong>Часть 2.</strong> Добавьте ещё два теста по кейсам разных классов: другая операция, отрицательные или
+                дробные числа, цепочка операций.
+              </td>
             </tr>
             <tr>
               <th scope="row">«5»</th>
-              <td>Всё для «4», тестов больше трёх, и они сгруппированы блоками <code>describe</code></td>
+              <td>
+                <strong>Часть 3.</strong> Напишите больше трёх тестов и сгруппируйте их блоками <code>describe</code>; отчёт
+                <code>npm run test:jest -- --verbose</code> покажет группы.
+              </td>
             </tr>
           </tbody>
         </table>
+        <p class="muted">Части выполняются по порядку: часть 1 — «3», части 1–2 — «4», все три — «5».</p>
+
+        <h2>Как сдать работу</h2>
+        <p>
+          После каждой части сделайте скриншоты (<code>Win+Shift+S</code>) и вставьте их в один документ Word
+          (<code>Ctrl+V</code>). Пришлите преподавателю файл <code>ЛР3_Фамилия_Имя.docx</code>, например
+          <code>ЛР3_Иванов_Иван.docx</code>. Что должно быть на скриншотах:
+        </p>
+        <ul class="list">
+          <li>
+            <strong>Часть 1</strong> — VS Code с <code>tests/arithmetic.test.js</code>, а в терминале — вывод
+            <code>npm run test:coverage</code>: таблица покрытия и <code>Tests: 1 passed</code>.
+          </li>
+          <li><strong>Часть 2</strong> — VS Code с тремя тестами, а в терминале — <code>npm run test:jest</code>, все тесты пройдены.</li>
+          <li>
+            <strong>Часть 3</strong> — VS Code с блоками <code>describe</code>, а в терминале — вывод
+            <code>npm run test:jest -- --verbose</code> с группами и тестами.
+          </li>
+        </ul>
         <p class="note">
           Тест упал? Сначала сверьте ожидание с тест-кейсом и требованиями — не подгоняйте его под то, что показал калькулятор.
-          Подробности — в методичке, шаг 13.
+          Подробности — в методичке, часть 2. Если что-то не получается, напишите преподавателю и приложите скриншот терминала
+          с ошибкой.
         </p>
       </article>
+
+      <section class="card" id="install" aria-labelledby="install-title">
+        <p class="eyebrow">Вне компьютерного класса</p>
+        <h2 id="install-title" class="card__title">Установка программ</h2>
+        <p>
+          В компьютерном классе всё нужное уже установлено. Эти инструкции — для тех, кто делает работу дома или на своём
+          ноутбуке. Каждая занимает один лист и начинается с проверки: возможно, программа у вас уже есть и ставить ничего не
+          придётся.
+        </p>
+        <ul class="files">
+          <li class="file">
+            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
+            <div>
+              <p class="file__title">Git</p>
+              <p class="file__text">Если проекта нет — чтобы скачать его командой <code>git clone</code> · 5–10 минут</p>
+              <p class="file__name">02. lab-calc-git-install.docx · 20&nbsp;КБ</p>
+            </div>
+            <a class="download" href="../02/02.%20lab-calc-git-install.docx" download="02. lab-calc-git-install.docx">Скачать</a>
+          </li>
+          <li class="file">
+            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
+            <div>
+              <p class="file__title">Node.js и npm</p>
+              <p class="file__text">Чтобы установить Jest и запустить тесты · 5 минут</p>
+              <p class="file__name">02. lab-calc-node-install.docx · 12&nbsp;КБ</p>
+            </div>
+            <a class="download" href="../02/02.%20lab-calc-node-install.docx" download="02. lab-calc-node-install.docx">Скачать</a>
+          </li>
+          <li class="file">
+            <span class="badge badge--docx" aria-hidden="true">DOCX</span>
+            <div>
+              <p class="file__title">Docker Desktop</p>
+              <p class="file__text">Для части 3 лабораторной работы 2, в этой работе не нужен · 15–20 минут с перезагрузкой</p>
+              <p class="file__name">02. lab-calc-docker-install.docx · 12&nbsp;КБ</p>
+            </div>
+            <a class="download" href="../02/02.%20lab-calc-docker-install.docx" download="02. lab-calc-docker-install.docx">Скачать</a>
+          </li>
+        </ul>
+        <p class="muted">
+          Ещё понадобится редактор VS Code — скачайте его с <a href="https://code.visualstudio.com/">code.visualstudio.com</a> и
+          установите с вариантами по умолчанию. Для установки программ нужны права администратора.
+        </p>
+      </section>
       <footer class="footer">Учебный проект · калькулятор «Стандартный»</footer>
     </main>
   </body>
