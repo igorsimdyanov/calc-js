@@ -18,6 +18,8 @@ export default defineConfig({
     assetsDir: 'assets',
   },
   test: {
+    // Vitest проверяет только тесты в src/: тесты Jest лежат в tests/
+    include: ['src/**/*.test.{js,jsx}'],
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/test/setup.js',
