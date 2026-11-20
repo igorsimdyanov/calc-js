@@ -347,8 +347,8 @@
             <span class="badge badge--docx" aria-hidden="true">DOCX</span>
             <div>
               <p class="file__title">Методичка</p>
-              <p class="file__text">Три части на двух страницах: подключение Jest, примеры тестов и какие скриншоты прислать</p>
-              <p class="file__name">09. calc-jest.docx · 13&nbsp;КБ</p>
+              <p class="file__text">Три части на двух страницах: проект с ветки jest, примеры тестов и какие скриншоты прислать</p>
+              <p class="file__name">09. calc-jest.docx · 14&nbsp;КБ</p>
             </div>
             <a class="download" href="09.%20calc-jest.docx" download="09. calc-jest.docx">Скачать</a>
           </li>
@@ -356,14 +356,20 @@
 
         <h2>С чего начать</h2>
         <p>
-          Откройте в VS Code папку <code>calc-js</code> из лабораторной работы 2 и подключите к ней Jest по методичке. Если
-          проекта нет, склонируйте его заново:
+          Откройте в VS Code новую пустую папку, например <code>C:\lab3</code>, склонируйте проект и перейдите на ветку
+          <code>jest</code> — в ней Jest уже подключён:
         </p>
         <pre><code>git clone https://github.com/igorsimdyanov/calc-js.git
 cd calc-js
-npm install</code></pre>
+git switch jest
+npm install
+npm run test:jest</code></pre>
+        <p>
+          Должно быть <code>Tests: 33 passed</code> — это тесты с занятия. Папка <code>calc-js</code> из лабораторной работы 2
+          не подойдёт: в ней ветка <code>master</code> без Jest.
+        </p>
         <p class="muted">
-          Нужны Node.js 22.12 или новее и VS Code. В компьютерном классе всё установлено, на своём компьютере поставьте
+          Нужны Git, Node.js 22.12 или новее и VS Code. В компьютерном классе всё установлено, на своём компьютере поставьте
           программы по <a href="#install">инструкциям ниже</a>. И ваши тест-кейсы сьюта «Арифметические операции» из
           лабораторной работы 1.
         </p>
@@ -374,8 +380,8 @@ npm install</code></pre>
             <tr>
               <th scope="row">«3»</th>
               <td>
-                <strong>Часть 1.</strong> Подключите Jest к проекту, напишите в <code>tests/arithmetic.test.js</code> первый
-                тест по своему тест-кейсу TC-ARI и измерьте покрытие: <code>npm run test:coverage</code>.
+                <strong>Часть 1.</strong> Создайте помощники <code>tests/helpers.js</code>, напишите в
+                <code>tests/lab3.test.js</code> первый тест по своему тест-кейсу TC-ARI и измерьте покрытие кода.
               </td>
             </tr>
             <tr>
@@ -389,7 +395,7 @@ npm install</code></pre>
               <th scope="row">«5»</th>
               <td>
                 <strong>Часть 3.</strong> Напишите больше трёх тестов и сгруппируйте их блоками <code>describe</code>; отчёт
-                <code>npm run test:jest -- --verbose</code> покажет группы.
+                <code>npm run test:jest -- lab3</code> покажет группы.
               </td>
             </tr>
           </tbody>
@@ -404,13 +410,16 @@ npm install</code></pre>
         </p>
         <ul class="list">
           <li>
-            <strong>Часть 1</strong> — VS Code с <code>tests/arithmetic.test.js</code>, а в терминале — вывод
-            <code>npm run test:coverage</code>: таблица покрытия и <code>Tests: 1 passed</code>.
+            <strong>Часть 1</strong> — VS Code с <code>tests/lab3.test.js</code>, а в терминале — вывод
+            <code>npm run test:jest -- --coverage</code>: таблица покрытия и <code>Tests: 34 passed</code>.
           </li>
-          <li><strong>Часть 2</strong> — VS Code с тремя тестами, а в терминале — <code>npm run test:jest</code>, все тесты пройдены.</li>
+          <li>
+            <strong>Часть 2</strong> — VS Code с тремя тестами, а в терминале — <code>npm run test:jest -- lab3</code>, все
+            тесты пройдены.
+          </li>
           <li>
             <strong>Часть 3</strong> — VS Code с блоками <code>describe</code>, а в терминале — вывод
-            <code>npm run test:jest -- --verbose</code> с группами и тестами.
+            <code>npm run test:jest -- lab3</code> с группами и тестами.
           </li>
         </ul>
         <p class="note">
@@ -433,7 +442,7 @@ npm install</code></pre>
             <span class="badge badge--docx" aria-hidden="true">DOCX</span>
             <div>
               <p class="file__title">Git</p>
-              <p class="file__text">Если проекта нет — чтобы скачать его командой <code>git clone</code> · 5–10 минут</p>
+              <p class="file__text">Чтобы скачать проект командой <code>git clone</code> и переключить ветку · 5–10 минут</p>
               <p class="file__name">02. lab-calc-git-install.docx · 20&nbsp;КБ</p>
             </div>
             <a class="download" href="../02/02.%20lab-calc-git-install.docx" download="02. lab-calc-git-install.docx">Скачать</a>
@@ -442,7 +451,7 @@ npm install</code></pre>
             <span class="badge badge--docx" aria-hidden="true">DOCX</span>
             <div>
               <p class="file__title">Node.js и npm</p>
-              <p class="file__text">Чтобы установить Jest и запустить тесты · 5 минут</p>
+              <p class="file__text">Чтобы установить зависимости и запустить тесты · 5 минут</p>
               <p class="file__name">02. lab-calc-node-install.docx · 12&nbsp;КБ</p>
             </div>
             <a class="download" href="../02/02.%20lab-calc-node-install.docx" download="02. lab-calc-node-install.docx">Скачать</a>
